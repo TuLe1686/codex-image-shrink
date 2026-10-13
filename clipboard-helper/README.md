@@ -60,6 +60,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 ## 边界与取舍
 
 - 只处理"剪贴板里的图片数据"（截图、"复制图像"）；"复制文件"（CF_HDROP）不动；
+- ⚠️ **不要把"把 JPEG 文件复制到剪贴板"当作替代方案**：Codex 对剪贴板里的文件同样会先解码、再重编码成 PNG
+  （源码 `clipboard_paste.rs`："Always PNG for now"），300KB 的 JPEG 会变成 ~2MB 的 PNG，反而更大。
+  本助手只处理位图、且坚持放位图，是正确的设计——不要"优化"成放文件；
 - 它会替换剪贴板里的原图 —— 如果你把图片复制出去是要往 Photoshop 里贴原图的场景，这个助手会按 ≤2000px 给你。
   对"贴进对话给模型看"这个主场景无损（模型本来也不吃那么多像素）；在意原图的机器建议不装；
 - 图片本来就 ≤2000px 的，原样保留不重编码。
