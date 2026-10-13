@@ -33,12 +33,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 > （Paste from Other Apps）** 里把对应 App 设为"允许"——**一次性步骤**，不做的话读取会被静默拒绝。
 > （依据：Apple 开发者公告 + 15.4 预览 + 27.2 起旧开发者预览开关废弃。）
 
-**方案 A（省事，值得先评估）：现成的开源工具 `shotsmash`**
-（github.com/Taewoong1378/shotsmash）——专为这个场景做的 macOS 工具：
-文件模式（盯 `~/Pictures/Screenshots/`）+ **剪贴板模式**（>1400px 自动缩），描述里点名 Codex/Claude Code 场景。
-装前审一遍源码（给客户装机建议先自己在测试机过一遍）。装好后同样要在"从其他 App 粘贴"里允许它。
+**推荐：方案 B（Hammerspoon + 系统自带 sips）** —— 底座是活跃维护的成熟应用，脚本仅 70 行、全在自控范围（下详）。
 
-**方案 B（自研兜底，零第三方依赖）：Hammerspoon + 系统自带 sips**
+**备选：方案 A `shotsmash`（Taewoong1378/shotsmash，MIT）** —— 一键 curl 安装、文件+剪贴板双模式
+（文件模式盯 `~/Pictures/Screenshots/` 转 WebP；剪贴板模式 >1400px）。但实测现状一般，**不建议直接给客户装**：
+**14★、0 fork、单日项目、代码 5 个月未更新、1 个 open issue**；剪贴板是低频轮询（README 自述 30s 级，
+截图后立刻粘贴可能仍是原图）；安装脚本还会改动系统截图保存目录。要用先自行审代码。
 
 1. `brew install --cask hammerspoon`（或官网下载），打开菜单栏图标；
 2. 把 `macos/hammerspoon-clipshrink.lua` 放到 `~/.hammerspoon/clipshrink.lua`，`init.lua` 里加 `require("clipshrink")`；

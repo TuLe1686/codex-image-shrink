@@ -8,6 +8,16 @@
 > Shrink large local images before they enter the conversation — via a Codex skill (file/view_image path)
 > and a clipboard helper (paste path). Downscale + re-encode to a small JPEG copy (≤2000px, q85).
 
+## 交付给客户（一句话）
+
+把下面这句直接发给对方的 Codex / AI 编程助手（它会自己读仓库里的 `INSTALL.md`，完成安装与验证）：
+
+> 请阅读 https://github.com/TuLe1686/codex-image-shrink 的 INSTALL.md，
+> 按它给我的电脑（Windows/macOS）安装 image-shrink（技能 + 剪贴板助手），
+> 装完执行其中的验证步骤，把结果告诉我。
+
+安装细节、验证清单与故障排查见 **[INSTALL.md](INSTALL.md)**。
+
 ## 为什么需要它
 
 - 模型按 patch 计图片 token：**一张 8MB 的图和一张 300KB 的图，token 几乎一样多** —— 多出来的字节买不到任何信息；
