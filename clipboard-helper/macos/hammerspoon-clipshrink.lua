@@ -1,5 +1,5 @@
 -- clipshrink for macOS（Hammerspoon 方案）
--- 效果：凡是拷进剪贴板的图片（截图、"拷贝图像"等），长边 >2000px 的自动替换成 ≤2000px JPEG 小副本——
+-- 效果：凡是拷进剪贴板的图片（截图、"拷贝图像"等），长边 >1920px 的自动替换成 ≤1920px 的小副本——
 --       任何程序（包括 Codex）粘贴到的都是小图。
 --
 -- 安装：
@@ -15,7 +15,7 @@
 --
 -- 依赖：系统自带 sips（做缩放与 JPEG 转码）。
 
-local MAXDIM = 2000
+local MAXDIM = 1920
 local QUALITY = 85 -- sips formatOptions 0-100
 
 local last = hs.pasteboard.changeCount()

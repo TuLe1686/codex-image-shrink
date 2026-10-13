@@ -6,7 +6,7 @@
 
 ```
 系统截图（Win+Shift+S / Cmd+Shift+4）
-   → 剪贴板（clipshrink 在此把 >2000px 的图换成 ≤2000px JPEG 小副本）
+   → 剪贴板（clipshrink 在此把 >1920px 的图换成 ≤1920px 的小副本）
       → 粘贴进 Codex：从头到尾都是小图
 ```
 
@@ -45,7 +45,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 3. 菜单栏 Reload Config；
 4. **权限（必须）**：系统设置 → 隐私与安全性 → "从其他 App 粘贴" → Hammerspoon 设为"允许"
    （未授权时首次复制大图会弹一次引导提示）；
-5. 冒烟：复制一张 >2000px 的截图，应弹 `clipshrink: WxH -> WxH`；粘到预览里核对尺寸 ≤2000px；
+5. 冒烟：复制一张 >1920px 的截图，应弹 `clipshrink: WxH -> WxH`；粘到预览里核对尺寸 ≤1920px；
 6. 卸载：删 `require` 行与文件，Reload。
 
 设计要点（为何这样写）：轮询只读 **changeCount**（计数器，不读内容、不触发隐私机制）；仅计数器变化才 `readImage`；
@@ -63,9 +63,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 - ⚠️ **不要把"把 JPEG 文件复制到剪贴板"当作替代方案**：Codex 对剪贴板里的文件同样会先解码、再重编码成 PNG
   （源码 `clipboard_paste.rs`："Always PNG for now"），300KB 的 JPEG 会变成 ~2MB 的 PNG，反而更大。
   本助手只处理位图、且坚持放位图，是正确的设计——不要"优化"成放文件；
-- 它会替换剪贴板里的原图 —— 如果你把图片复制出去是要往 Photoshop 里贴原图的场景，这个助手会按 ≤2000px 给你。
+- 它会替换剪贴板里的原图 —— 如果你把图片复制出去是要往 Photoshop 里贴原图的场景，这个助手会按 ≤1920px 给你。
   对"贴进对话给模型看"这个主场景无损（模型本来也不吃那么多像素）；在意原图的机器建议不装；
-- 图片本来就 ≤2000px 的，原样保留不重编码。
+- 图片本来就 ≤1920px 的，原样保留不重编码。
 
 ## 开发注意
 

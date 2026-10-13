@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# image-shrink: 大图 → ≤2000px JPEG 小副本（macOS 用系统自带 sips；Linux 用 magick/ffmpeg）
-# 用法: bash shrink.sh <原图> [maxDim=2000] [quality=85]
+# image-shrink: 大图 → ≤1920px JPEG 小副本（macOS 用系统自带 sips；Linux 用 magick/ffmpeg）
+# 用法: bash shrink.sh <原图> [maxDim=1920] [quality=85]
 set -euo pipefail
 src="${1:?用法: shrink.sh <原图> [maxDim] [quality]}"
-max="${2:-2000}"; q="${3:-85}"
+max="${2:-1920}"; q="${3:-85}"
 [ -f "$src" ] || { echo "文件不存在: $src" >&2; exit 2; }
 dir="$(dirname "$src")"; base="$(basename "$src")"; stem="${base%.*}"
 out="$dir/$stem.small.jpg"

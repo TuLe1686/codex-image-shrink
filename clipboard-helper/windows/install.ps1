@@ -1,6 +1,6 @@
 ﻿# 把剪贴板缩图助手装成开机自启（Windows，隐藏窗口，无控制台闪烁）
-# 用法：powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1 [-MaxDim 2000]
-param([int]$MaxDim = 2000)
+# 用法：powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1 [-MaxDim 1920]
+param([int]$MaxDim = 1920)
 $ErrorActionPreference = 'Stop'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $dest = Join-Path $env:LOCALAPPDATA 'codex-clipshrink'

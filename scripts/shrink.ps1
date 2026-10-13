@@ -1,8 +1,8 @@
-﻿# image-shrink: 大图 → ≤2000px JPEG 小副本（Windows，零依赖：System.Drawing）
-# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File shrink.ps1 -Path "D:\shot.png" [-MaxDim 2000] [-Quality 85] [-Out 指定输出]
+﻿# image-shrink: 大图 → ≤1920px JPEG 小副本（Windows，零依赖：System.Drawing）
+# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File shrink.ps1 -Path "D:\shot.png" [-MaxDim 1920] [-Quality 85] [-Out 指定输出]
 param(
   [Parameter(Mandatory=$true)][string]$Path,
-  [int]$MaxDim = 2000,
+  [int]$MaxDim = 1920,
   [int]$Quality = 85,
   [string]$Out = ''
 )

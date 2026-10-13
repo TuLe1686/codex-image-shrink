@@ -2,11 +2,11 @@
 
 **大图先缩再读** —— Codex 技能 + 剪贴板助手，让图片以"小副本"进入对话：
 
-- 技能（`image-shrink`）：agent 看任何图片文件前，先降采样+重编码成小副本（长边 ≤2000px、JPEG q85），只读小副本；
+- 技能（`image-shrink`）：agent 看任何图片文件前，先降采样+重编码成小副本（长边 ≤1920px、JPEG q85），只读小副本；
 - 剪贴板助手（`clipshrink`）：图片一进剪贴板就换成小副本 —— **直接粘贴**进对话的路径也覆盖，客户工作流零改动。
 
 > Shrink large local images before they enter the conversation — via a Codex skill (file/view_image path)
-> and a clipboard helper (paste path). Downscale + re-encode to a small JPEG copy (≤2000px, q85).
+> and a clipboard helper (paste path). Downscale + re-encode to a small JPEG copy (≤1920px, q85).
 
 ## 交付给客户（一句话）
 
@@ -52,7 +52,7 @@
 
 ## 剪贴板助手（粘贴路径）
 
-技能管不到"直接把截图粘进对话"的路径；剪贴板助手从源头下手：**图片一进剪贴板就换成 ≤2000px 小副本**，
+技能管不到"直接把截图粘进对话"的路径；剪贴板助手从源头下手：**图片一进剪贴板就换成 ≤1920px 小副本**，
 之后粘进任何程序（Codex/微信/…）拿到的都是小图。见 [`clipboard-helper/`](clipboard-helper/)：
 - Windows：`clipboard-helper/windows/`（PowerShell 零依赖，一条命令装成开机自启）；
 - macOS：`clipboard-helper/macos/hammerspoon-clipshrink.lua`（Hammerspoon + 系统 sips）。
@@ -78,8 +78,8 @@ clipboard-helper/               剪贴板缩图助手（Windows / macOS）
 
 ## 实测
 
-- 技能缩图（Windows 零依赖）：**2400×1500 / 837KB PNG → 2000×1250 / 39KB JPEG**；
-- 剪贴板助手（Windows）：2400×1500 截图进入剪贴板 → 自动替换为 2000×1250（≤2000px 的原图不动）。
+- 技能缩图（Windows 零依赖）：**2400×1500 / 837KB PNG → 1920×1200 / 247KB JPEG**（此测试图带噪声底，实际截图通常更小）；
+- 剪贴板助手（Windows）：2400×1500 截图进入剪贴板 → 自动替换为 1920×1200（≤1920px 的原图不动）。
 
 ## License
 

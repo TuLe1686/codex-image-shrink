@@ -6,7 +6,7 @@
 #   powershell -NoProfile -STA -ExecutionPolicy Bypass -File clipshrink.ps1 -Once      # 处理当前剪贴板一次（测试用）
 # 注意：本脚本需要 STA（Windows PowerShell 5.1 控制台默认 STA；用 powershell.exe 运行即可）。
 param(
-  [int]$MaxDim = 2000,
+  [int]$MaxDim = 1920,
   [int]$Quality = 85,
   [int]$PollMs = 400,
   [switch]$Once

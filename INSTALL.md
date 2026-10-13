@@ -49,7 +49,7 @@ wscript "$env:LOCALAPPDATA\codex-clipshrink\launch.vbs"   # 立即启动（以�
 powershell -NoProfile -STA -Command "Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$b=New-Object System.Drawing.Bitmap(2400,1500);[System.Windows.Forms.Clipboard]::SetImage($b);$b.Dispose()"
 # 2) 单次处理
 powershell -NoProfile -STA -ExecutionPolicy Bypass -File clipboard-helper\windows\clipshrink.ps1 -Once
-# 3) 读回尺寸，应为 2000x1250
+# 3) 读回尺寸，应为 1920x1200
 powershell -NoProfile -STA -Command "Add-Type -AssemblyName System.Windows.Forms;$c=[System.Windows.Forms.Clipboard]::GetImage();'{0}x{1}' -f $c.Width,$c.Height;$c.Dispose()"
 ```
 
@@ -92,8 +92,8 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_Pasteboard
 
 > ⚠️ 因为这一步无法自动化，**AI 在最终汇报时必须把它单列为「需要您手动完成」一项**（汇报格式见文末模板）。
 
-验证：`Cmd+Ctrl+Shift+4` 截一张整屏（或复制任意 >2000px 大图）→ 右下角应弹
-`clipshrink: 3024x1964 -> 2000x1299` 之类的提示 → 粘进任意图片 App 核对尺寸 ≤2000px。
+验证：`Cmd+Ctrl+Shift+4` 截一张整屏（或复制任意 >1920px 大图）→ 右下角应弹
+`clipshrink: 3024x1964 -> 1920x1247` 之类的提示 → 粘进任意图片 App 核对尺寸 ≤1920px。
 **若没有弹出提示**：九成是权限没开——先带用户走上面的权限步骤，再让他重新复制一次大图复测；
 复测仍无提示则报告原始现象（含执行的命令与输出）。
 
@@ -114,7 +114,7 @@ image-shrink 安装与验证结果
 - 技能：✅/❌（~/.codex/skills/image-shrink 存在；AGENTS.md 常驻指令标记 = 1 处）
 - 剪贴板助手：✅/❌（已装并自启）
 - 端到端验证：
-  - 剪贴板缩图：复制/造一张 2400×1500 大图 → 处理后应为 2000×1250（实测：____）
+  - 剪贴板缩图：复制/造一张 2400×1500 大图 → 处理后应为 1920×1200（实测：____）
   - 技能读图：让 Codex 看一眼大图 → 是否先出小副本（实测：____）
 
 【macOS 必列】⚠️ 需要您手动完成 1 项（AI 无法代点）：
@@ -130,6 +130,17 @@ image-shrink 安装与验证结果
 - **macOS 的「需要您手动完成」区块必须出现在汇报里**（即使已验证通过，也提醒一次以防后续系统更新重置）；
 - Windows 无手动项，如实报告即可；
 - 任何一步失败：先按「故障排查」表自查一轮，仍失败则汇报原始命令与输出，不要略过。
+
+## 可选增强验证（客户机装了 Codex 桌面端时）
+
+确认"文件/看图路径原字节透传"（决定 `.small.jpg` 的实际线上体积）：
+
+1. 让 Codex 用 view_image 看一眼任意 `.small.jpg`（或按上面的剪贴板验证顺手做）；
+2. 在客户机运行 `python3 <skill目录>/scripts/scan-sessions.py 3`；
+3. 最新会话里应出现 `jpeg` 图片，且其大小 ≈ 文件字节 × 4/3（base64 膨胀）⇒ 原字节直达、未被重编码。
+
+> 预期行为（源码级已确认）：Codex 对"读文件/看图"路径在预算内（≤2048px 且 ≤2500 个 32px patch）原样透传；
+> 超预算才会解码缩放（保持原格式）。1920 上限保证常见截图都落在预算内。
 
 ## 卸载
 
