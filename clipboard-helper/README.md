@@ -28,14 +28,34 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 
 ## macOS（yhb 这类）
 
-用 Hammerspoon（免费开源）+ 系统自带 sips：
+> ⚠️ **新版 macOS 的剪贴板隐私机制（15.4 引入、26/27 落地）：** 任何在后台"程序化读取剪贴板"的工具
+> （包括下面的两个方案）都会被系统拦截/弹提示，需要到 **系统设置 → 隐私与安全性 → "从其他 App 粘贴"
+> （Paste from Other Apps）** 里把对应 App 设为"允许"——**一次性步骤**，不做的话读取会被静默拒绝。
+> （依据：Apple 开发者公告 + 15.4 预览 + 27.2 起旧开发者预览开关废弃。）
 
-1. `brew install --cask hammerspoon`（或官网下载），打开并授予辅助功能权限；
-2. 把 `macos/hammerspoon-clipshrink.lua` 放到 `~/.hammerspoon/clipshrink.lua`，在 `init.lua` 里加 `require("clipshrink")`；
-3. 菜单栏 Reload Config。装完复制一张大截图试试，右下角会弹 `clipshrink: WxH -> WxH`。
-4. 卸载：删掉那行 require 与文件，Reload。
+**方案 A（省事，值得先评估）：现成的开源工具 `shotsmash`**
+（github.com/Taewoong1378/shotsmash）——专为这个场景做的 macOS 工具：
+文件模式（盯 `~/Pictures/Screenshots/`）+ **剪贴板模式**（>1400px 自动缩），描述里点名 Codex/Claude Code 场景。
+装前审一遍源码（给客户装机建议先自己在测试机过一遍）。装好后同样要在"从其他 App 粘贴"里允许它。
 
-> ⚠️ Hammerspoon 版逻辑已在代码层审过，但**尚未在真机（yhb 的 Mac）验证**——装机时按上面第 3 步冒烟一次。
+**方案 B（自研兜底，零第三方依赖）：Hammerspoon + 系统自带 sips**
+
+1. `brew install --cask hammerspoon`（或官网下载），打开菜单栏图标；
+2. 把 `macos/hammerspoon-clipshrink.lua` 放到 `~/.hammerspoon/clipshrink.lua`，`init.lua` 里加 `require("clipshrink")`；
+3. 菜单栏 Reload Config；
+4. **权限（必须）**：系统设置 → 隐私与安全性 → "从其他 App 粘贴" → Hammerspoon 设为"允许"
+   （未授权时首次复制大图会弹一次引导提示）；
+5. 冒烟：复制一张 >2000px 的截图，应弹 `clipshrink: WxH -> WxH`；粘到预览里核对尺寸 ≤2000px；
+6. 卸载：删 `require` 行与文件，Reload。
+
+设计要点（为何这样写）：轮询只读 **changeCount**（计数器，不读内容、不触发隐私机制）；仅计数器变化才 `readImage`；
+自己写入后立刻刷新计数器基准，避免二次读取；`saveToFile(..., true, "PNG")` 按像素落盘
+（Retina 屏点/像素 2:1，默认按"点"存会意外缩半——这是逐条对 Hammerspoon 官方文档核出来的）；写入为 NSImage
+（系统以 TIFF 表示，主流 App 均可接收）。
+
+> 方案 B 已把用到的 API 逐条对 Hammerspoon 官方文档核过（`changeCount` / `readImage` / `writeObjects` /
+> `imageFromPath` / `:size()` / `saveToFile` 均确认存在与签名一致），但仍需在真机（yhb 的 Mac）
+> 冒烟——重点验证：权限步骤、Codex 里粘贴的实际效果。
 
 ## 边界与取舍
 
