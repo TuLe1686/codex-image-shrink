@@ -43,3 +43,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File windows\install.ps1
 - 它会替换剪贴板里的原图 —— 如果你把图片复制出去是要往 Photoshop 里贴原图的场景，这个助手会按 ≤2000px 给你。
   对"贴进对话给模型看"这个主场景无损（模型本来也不吃那么多像素）；在意原图的机器建议不装；
 - 图片本来就 ≤2000px 的，原样保留不重编码。
+
+## 开发注意
+
+- 所有 `.ps1` 文件必须带 **UTF-8 BOM**（`EF BB BF`）——Windows PowerShell 5.1 对无 BOM 文件按本地代码页解析，
+  中文注释会变成乱码甚至语法错误（实测踩坑：无 BOM 时直接报 ParserError）。用编辑器保存时保留 BOM。
