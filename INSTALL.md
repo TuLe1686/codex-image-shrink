@@ -80,7 +80,7 @@ grep -q 'require("clipshrink")' ~/.hammerspoon/init.lua 2>/dev/null || echo 'req
 open -a Hammerspoon                      # 首次打开；菜单栏出现锤子图标
 ```
 
-**权限步骤（必须，需要用户手动点一次）**：
+**权限步骤（必须，只能由用户手动点一次——AI 无法代点）**：
 在 Hammerspoon 菜单栏图标 → `Reload Config` 之后，打开下面任一入口，把 **Hammerspoon 设为"允许"**：
 
 ```bash
@@ -90,8 +90,12 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_Pasteboard
 
 （路径：系统设置 → 隐私与安全性 → "从其他 App 粘贴"。不设的话，后台读取会被系统静默拒绝、表现为"没效果"。）
 
+> ⚠️ 因为这一步无法自动化，**AI 在最终汇报时必须把它单列为「需要您手动完成」一项**（汇报格式见文末模板）。
+
 验证：`Cmd+Ctrl+Shift+4` 截一张整屏（或复制任意 >2000px 大图）→ 右下角应弹
 `clipshrink: 3024x1964 -> 2000x1299` 之类的提示 → 粘进任意图片 App 核对尺寸 ≤2000px。
+**若没有弹出提示**：九成是权限没开——先带用户走上面的权限步骤，再让他重新复制一次大图复测；
+复测仍无提示则报告原始现象（含执行的命令与输出）。
 
 > 备选工具：开源项目 `Taewoong1378/shotsmash`（一键 curl 安装、文件+剪贴板双模式）。注意现状：
 > 14★、单日项目、代码数月未更新、剪贴板为低频轮询（截图后立刻粘贴可能仍是原图）。给客户装机前先自行审代码。
@@ -101,6 +105,31 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_Pasteboard
 重启 Codex。可选验证同 Windows。
 
 ---
+
+## 装完汇报模板（AI 必须按此格式向用户汇报）
+
+```
+image-shrink 安装与验证结果
+- 系统：Windows 10 / macOS 27.x
+- 技能：✅/❌（~/.codex/skills/image-shrink 存在；AGENTS.md 常驻指令标记 = 1 处）
+- 剪贴板助手：✅/❌（已装并自启）
+- 端到端验证：
+  - 剪贴板缩图：复制/造一张 2400×1500 大图 → 处理后应为 2000×1250（实测：____）
+  - 技能读图：让 Codex 看一眼大图 → 是否先出小副本（实测：____）
+
+【macOS 必列】⚠️ 需要您手动完成 1 项（AI 无法代点）：
+  打开「系统设置 → 隐私与安全性 → 从其他 App 粘贴」，把 Hammerspoon 设为「允许」。
+  一键直达（复制到终端回车即可把我带过去）：
+  open "x-apple.systempreferences:com.apple.preference.security?Privacy_Pasteboard"
+  不开这一步：剪贴板助手读不到图片，等于没装。
+
+- 重启 Codex 后即可生效。
+```
+
+要点：
+- **macOS 的「需要您手动完成」区块必须出现在汇报里**（即使已验证通过，也提醒一次以防后续系统更新重置）；
+- Windows 无手动项，如实报告即可；
+- 任何一步失败：先按「故障排查」表自查一轮，仍失败则汇报原始命令与输出，不要略过。
 
 ## 卸载
 

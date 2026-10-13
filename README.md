@@ -14,7 +14,7 @@
 
 > 请阅读 https://github.com/TuLe1686/codex-image-shrink 的 INSTALL.md，
 > 按它给我的电脑（Windows/macOS）安装 image-shrink（技能 + 剪贴板助手），
-> 装完执行其中的验证步骤，把结果告诉我。
+> 装完执行其中的验证步骤，把结果告诉我；凡需要我手动操作的，单独列出来。
 
 安装细节、验证清单与故障排查见 **[INSTALL.md](INSTALL.md)**。
 
