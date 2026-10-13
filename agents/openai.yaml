@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Shrink"
+  short_description: "Downscale large images into small copies before viewing them with the model."
+  default_prompt: "Use $image-shrink to shrink large image files before viewing them."
