@@ -84,3 +84,5 @@ clipboard-helper/               剪贴板缩图助手（Windows / macOS）
 ## License
 
 MIT
+
+> 文档核实更新：2026-11-19（依据仓库当前代码核对）
